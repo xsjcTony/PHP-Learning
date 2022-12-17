@@ -116,6 +116,8 @@ echo FOOBAR; // 4
 
 - 有很多 `全局常量`, 比如 `PHP_VERSION` / `__LINE__` 等等
 
+
+
 ---
 
 ## 表达式 (Expression)
@@ -123,7 +125,116 @@ echo FOOBAR; // 4
 - 基本上任何一句都是 `表达式`
 - 任何可以 evaluate to 一个值的句子都是 `表达式`
 
+
+
 ---
+
+## 流程控制 (Control Structures)
+
+[PHP: Control Structures - Manual](https://www.php.net/manual/en/language.control-structures.php)
+
+
+
+### if / else / elseif / else if
+
+- `elseif` 和 `else if` 没有区别, 但在 `HTML` 中只能使用 `elseif`
+
+```php
+if ($condition1) {
+  // executed when $condition1 is `true`
+} elseif ($condition2) {
+  // executed when $condition2 is `true`
+} else if ($condition3) {
+  // executed when $condition3 is `true`
+} else {
+  // executed when $condition1, 2, 3 are all `false`
+}
+```
+
+
+
+### 循环 (Loop)
+
+- `continue` 可以跳过当前循环执行并开始下一次
+- `break` 会结束当前循环
+- 除了 `do-while` 都有两种格式 (方便 `HTML` 中使用, 服务端不建议)
+
+#### while
+
+```php
+while ($condition) {
+  // executed if $condition is true and will run again
+}
+
+while ($condition):
+	// 另一种格式
+endwhile;
+
+while (true) {
+  // infinite loop
+}
+```
+
+#### do-while
+
+- 和 `while` 的区别在于它保证代码块中的代码至少执行一次
+
+```php
+do {
+  // executed at least once and when $condition is true
+} while ($condition);
+```
+
+#### for
+
+- 若有多个表达式, 则判断是否继续循环的条件以最后一个的结果为准
+
+```php
+for ($i = 0; $i < 15; $i++) {
+  // the same as in JavaScript
+}
+
+for ($i = 0, $length = count('test'); print $i, $i < 15; print $i, $i++) {
+  // 多个表达式, 用 `,` 分割, JavaScript中也可以
+}
+
+for ($i = 0; $ < 15; $i++):
+	// 另一种格式
+endfor;
+```
+
+#### foreach
+
+- 用于迭代 `可迭代` 的变量
+- `as` 之后是每一次遍历到的值
+- 默认传递 `数值`, 但也可以使用 `&` 可以让其传递 `引用` , 即修改时也会修改原数组
+- ❗ `as` 之后的变量在循环结束后不会被清除, 要小心 (尤其是传递 `引用` 时), 为可迭代变量最后一个元素
+
+```php
+$arr = [1, 2];
+
+foreach ($arr as $num) {
+  echo $num;
+}
+
+foreach ($arr as $key => $value) {
+  // 另一种键值对提取方式
+}
+
+foreach ($arr as &$num) {
+  $num += 1; // 会修改原数组, 因为 `&` 代表传递 `引用` 而不是 `数值`
+}
+
+// ❗
+$num = 3; // as之后的变量可以继续使用, 所以要小心, 尤其是传递 `引用` 时
+print_r($arr); // [1, 3] 被改变了, 因为 $num 是引用并且循环结束后没有被销毁
+
+foreach ($arr as $num):
+	// 另一种格式
+endforeach;
+```
+
+
 
 
 
